@@ -55,19 +55,19 @@ export default function Home() {
   if (phase === "menu") {
     const phases: Phase[] = ["q1", "q2", "q3", "q4", "q5"];
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-8 fade-in">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 sm:p-8 fade-in">
         <Confetti active={completed.every(Boolean)} />
         <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} />
-        <h1 className="text-4xl font-bold text-center" onClick={() => speak(VOICE.menuTitle)} style={{cursor: "pointer"}}>
+        <h1 className="text-3xl sm:text-4xl font-bold text-center" onClick={() => speak(VOICE.menuTitle)} style={{cursor: "pointer"}}>
           Rocket Landing Quest!
         </h1>
-        <p className="text-lg text-center opacity-70 max-w-md" onClick={() => speak(VOICE.menuSubtitle)} style={{cursor: "pointer"}}>
+        <p className="text-base sm:text-lg text-center opacity-70 max-w-md px-4" onClick={() => speak(VOICE.menuSubtitle)} style={{cursor: "pointer"}}>
           Collect all parts and fly to Mars!
         </p>
-        <div className="flex gap-3">
+        <div className="flex gap-2 sm:gap-3 flex-wrap justify-center">
           {PARTS.map((p, i) => (
             <div key={i} className="flex flex-col items-center gap-1" style={{ opacity: completed[i] ? 1 : 0.3 }}>
-              <span className="text-3xl" style={{ filter: completed[i] ? "none" : "grayscale(1)" }}>{p.emoji}</span>
+              <span className="text-2xl sm:text-3xl" style={{ filter: completed[i] ? "none" : "grayscale(1)" }}>{p.emoji}</span>
               <span className="text-xs" onClick={() => speak(p.voice)} style={{cursor: "pointer"}}>{p.label}</span>
             </div>
           ))}
@@ -78,9 +78,9 @@ export default function Home() {
         {completions > 0 && <p className="text-xs opacity-40" onClick={() => speak(VOICE.menuCompleted)} style={{cursor: "pointer"}}>
           🏆 Completed {completions}x
         </p>}
-        <div className="flex flex-col gap-3 w-full max-w-sm">
+        <div className="flex flex-col gap-3 w-full max-w-sm px-4">
           {QUESTS.map((q, i) => (
-            <button key={i} className="btn btn-primary flex justify-between items-center"
+            <button key={i} className="btn btn-primary flex justify-between items-center text-sm sm:text-base"
               style={{ opacity: i === 0 || completed[i - 1] ? 1 : 0.4 }}
               disabled={i > 0 && !completed[i - 1]}
               onClick={() => startQuest(phases[i])}
@@ -90,7 +90,7 @@ export default function Home() {
             </button>
           ))}
         </div>
-        {completed.every(Boolean) && <div className="text-xl font-bold text-center fade-in" style={{ color: "var(--success)" }} onClick={() => speak(VOICE.menuMissionComplete)}>
+        {completed.every(Boolean) && <div className="text-lg sm:text-xl font-bold text-center fade-in px-4" style={{ color: "var(--success)" }} onClick={() => speak(VOICE.menuMissionComplete)}>
           🎉 Mission complete! You landed on Mars!
         </div>}
       </div>

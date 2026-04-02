@@ -27,13 +27,13 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-8 fade-in">
+    <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-4 sm:p-8 fade-in">
       <Confetti active={done} />
-      <h2 className="text-3xl font-bold" onClick={() => speak(VOICE.q1Title)} style={{cursor: "pointer"}}>
+      <h2 className="text-2xl sm:text-3xl font-bold text-center px-4" onClick={() => speak(VOICE.q1Title)} style={{cursor: "pointer"}}>
         🔧 Quest 1: Build the Rocket!
       </h2>
       <RocketBuddy mood={mood} size={120} />
-      <p className="opacity-70 text-center max-w-md text-sm" onClick={() => speak(VOICE.q1Instruction)} style={{cursor: "pointer"}}>
+      <p className="opacity-70 text-center max-w-md text-sm px-4" onClick={() => speak(VOICE.q1Instruction)} style={{cursor: "pointer"}}>
         Every rocket needs the right parts. Too few = can&apos;t fly. Too many = too heavy!
       </p>
 
@@ -41,10 +41,10 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
         const ok = p.value === p.ideal;
         const over = p.value > p.ideal;
         return (
-          <div key={p.label} className="flex items-center gap-3 w-72">
-            <span className="text-2xl w-8">{p.emoji}</span>
-            <div className="flex-1">
-              <div className="flex justify-between text-sm mb-1">
+          <div key={p.label} className="flex items-center gap-2 sm:gap-3 w-full max-w-sm px-4">
+            <span className="text-xl sm:text-2xl w-6 sm:w-8">{p.emoji}</span>
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between text-xs sm:text-sm mb-1">
                 <span onClick={() => speak(p.voice)} style={{cursor: "pointer"}}>{p.label}</span>
                 <span onClick={() => speak(ok ? VOICE.q1Perfect : over ? VOICE.q1TooHeavy : p.voice)} style={{cursor: "pointer"}}>
                   {ok ? "✅ Perfect!" : over ? "⚠️ Too heavy!" : `${p.value}/${p.ideal}`}
@@ -58,13 +58,13 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
               </div>
             </div>
             <div className="flex gap-1">
-              <button className="btn px-3 py-1 text-lg" onClick={() => { 
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" onClick={() => { 
                 sfxTap(); 
                 const n = Math.min(p.value + 1, p.max); 
                 p.set(n); 
                 if (n === p.ideal) { sfxCorrect(); speak(VOICE.q1Perfect); }
               }}>+</button>
-              <button className="btn px-3 py-1 text-lg" style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
             </div>
           </div>
         );

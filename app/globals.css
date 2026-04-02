@@ -14,6 +14,7 @@ body {
   color: white;
   font-family: "Segoe UI", system-ui, sans-serif;
   margin: 0;
+  overflow-x: hidden;
 }
 
 /* fun bouncy button */
@@ -25,9 +26,17 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
+  touch-action: manipulation;
 }
 .btn:hover { transform: scale(1.05); }
 .btn:active { animation: btn-squash 0.2s ease; }
+
+@media (max-width: 640px) {
+  .btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
 
 @keyframes btn-squash {
   0% { transform: scale(1); }
@@ -52,6 +61,7 @@ body {
   cursor: grab;
   user-select: none;
   transition: transform 0.15s, box-shadow 0.15s;
+  touch-action: none;
 }
 .draggable:active { cursor: grabbing; transform: scale(1.1); }
 
@@ -68,6 +78,12 @@ body {
 .drop-zone.over {
   border-color: var(--accent);
   background: rgba(56, 189, 248, 0.1);
+}
+
+@media (max-width: 640px) {
+  .drop-zone {
+    min-height: 80px;
+  }
 }
 
 /* progress bar */
@@ -112,4 +128,11 @@ body {
   opacity: 0.8;
   text-decoration: underline;
   text-decoration-style: dotted;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  p { font-size: 0.9rem !important; }
 }
