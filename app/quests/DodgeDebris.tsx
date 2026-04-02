@@ -20,7 +20,7 @@ export default function DodgeDebris({ onComplete }: { onComplete: () => void }) 
   const [rocketY, setRocketY] = useState(50);
   const speaking = useSpeaking();
 
-  useEffect(() => { speak(VOICE.q4Start); }, []);
+  useEffect(() => { speak(VOICE.q4Start); return () => { stopSpeaking(); }; }, []);
 
   const event = events[idx];
   const aiWrong = event.correct === "dodge"; // AI always tries to fly through — wrong for dodge events

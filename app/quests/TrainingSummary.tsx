@@ -16,7 +16,7 @@ export default function TrainingSummary({ training, onComplete }: { training: Tr
   const isBiased = total > 0 && maxCount / total > 0.5;
   const speaking = useSpeaking();
 
-  useEffect(() => { speak(VOICE.summary).then(() => { if (isBiased) speak(VOICE.summaryBias); }); }, [isBiased]);
+  useEffect(() => { speak(VOICE.summary).then(() => { if (isBiased) speak(VOICE.summaryBias); }); return () => { stopSpeaking(); }; }, [isBiased]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-8 fade-in">

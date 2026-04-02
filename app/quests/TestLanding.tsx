@@ -17,7 +17,7 @@ export default function TestLanding({ training, onComplete }: { training: Traini
   const [done, setDone] = useState(false);
   const speaking = useSpeaking();
 
-  useEffect(() => { speak(VOICE.q3Start); }, []);
+  useEffect(() => { speak(VOICE.q3Start); return () => { stopSpeaking(); }; }, []);
   const scene = rounds[idx];
   const confColor = scene?.confidence >= 70 ? "#4ade80" : scene?.confidence >= 45 ? "#fbbf24" : "#ef4444";
 

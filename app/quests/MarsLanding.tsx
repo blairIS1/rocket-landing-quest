@@ -22,7 +22,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
   const [auto, setAuto] = useState(false);
   const speaking = useSpeaking();
 
-  useEffect(() => { speak(VOICE.q5Start); }, []);
+  useEffect(() => { speak(VOICE.q5Start); return () => { stopSpeaking(); }; }, []);
 
   // Auto-advance every 3s once started
   useEffect(() => {

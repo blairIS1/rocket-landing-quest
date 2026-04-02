@@ -17,7 +17,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
   const [done, setDone] = useState(false);
   const speaking = useSpeaking();
 
-  useEffect(() => { speak(VOICE.q2Start); }, []);
+  useEffect(() => { speak(VOICE.q2Start); return () => { stopSpeaking(); }; }, []);
 
   const current = items[idx];
 

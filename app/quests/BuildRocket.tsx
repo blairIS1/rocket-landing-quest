@@ -12,9 +12,12 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   const [engine, setEngine] = useState(0);
   const [fins, setFins] = useState(0);
   const [fuel, setFuel] = useState(0);
+  const [navigating, setNavigating] = useState(false);
   
   useEffect(() => { 
-    speak(VOICE.q1Start).then(() => speak(VOICE.q1Title)).then(() => speak(VOICE.q1Instruction)); 
+    let cancelled = false;
+    speak(VOICE.q1Start).then(() => !cancelled && speak(VOICE.q1Title)).then(() => !cancelled && speak(VOICE.q1Instruction)); 
+    return () => { cancelled = true; stopSpeaking(); };
   }, []);
 
   const speaking = useSpeaking();
@@ -80,7 +83,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned); onComplete(); }}>
+      {done && <button className="btn btn-success mt-4 fade-in" disabled={navigating} onClick={() => { setNavigating(true); stopSpeaking(); sfxTap(); speak(VOICE.q1Learned); onComplete(); }}>
         Next Quest →
       </button>}
     </div>
