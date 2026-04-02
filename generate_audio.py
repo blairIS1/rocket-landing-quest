@@ -23,6 +23,7 @@ TEXTS = {
     "q1_perfect": "Perfect!",
     "q1_too_heavy": "Too heavy!",
     "q1_next": "Next Quest",
+    "q1_learned": "Awesome! You learned that AI needs the RIGHT AMOUNT of data. Too little data means the AI can't learn. Too much data makes it slow and confused. Just like your rocket - 3 engines, 4 fins, 2 fuel tanks. Perfect balance!",
     
     # Main Menu
     "menu_title": "Rocket Landing Quest!",
@@ -56,6 +57,7 @@ TEXTS = {
     "q2_dangerous": "Dangerous",
     "q2_labeled": "labeled",
     "q2_next": "See Training Summary",
+    "q2_learned": "Great job! You just learned how AI training works! You labeled examples as safe or dangerous. This is called TRAINING DATA. The more examples you label, the smarter the AI gets. Real AI engineers do this with thousands of examples!",
     
     # Training Summary
     "summary_title": "Training Summary",
@@ -64,6 +66,7 @@ TEXTS = {
     "summary_medium": "Medium",
     "summary_high": "High",
     "summary_continue": "Continue to Test",
+    "summary_learned": "You learned about AI CONFIDENCE! When you give lots of training examples, the AI is more confident. When you give few examples, it's less sure. This is why real AI needs lots of data to be smart!",
     
     # Quest 3: Test Landing
     "q3_title": "Quest 3: Test the Landing AI!",
@@ -78,12 +81,14 @@ TEXTS = {
     "q3_need_training": "Need more training!",
     "q3_retrain": "Retrain AI",
     "q3_next": "Next Quest",
+    "q3_learned": "Amazing! You learned that AI can make MISTAKES! Even trained AI isn't perfect. That's why we TEST it before using it for real. You also learned that MORE TRAINING DATA makes AI better. Real engineers test AI thousands of times!",
     
     # Quest 4: Dodge Debris
     "q4_title": "Quest 4: Dodge Space Junk!",
     "q4_ai_says": "AI says",
     "q4_override": "Override AI",
     "q4_trust": "Trust AI",
+    "q4_learned": "Incredible! You learned about HUMAN-IN-THE-LOOP! Sometimes AI makes mistakes, so humans need to watch and help. Real satellites have engineers monitoring them 24/7. You were the mission control engineer! AI is smart, but humans are still needed!",
     
     # Quest 5: Mars Landing
     "q5_title": "Quest 5: Mission to Mars!",
@@ -94,6 +99,7 @@ TEXTS = {
     "q5_touchdown": "Touchdown!",
     "q5_success": "Mission success!",
     "q5_back_menu": "Back to Menu",
+    "q5_learned": "You did it! You learned how AI works from start to finish! First, collect the right data. Second, label training examples. Third, test the AI. Fourth, humans monitor it. Fifth, deploy it for real missions! Real Mars rovers use AI just like this!",
 }
 
 async def generate_audio(text: str, filename: str):

@@ -40,7 +40,7 @@ export default function TestLanding({ training, onComplete }: { training: Traini
             <button className="btn" style={{ background: "var(--accent)", color: "#0f172a" }} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Retrain).then(() => onComplete(true)); }}>🔄 Retrain</button>
             <button className="btn" style={{ background: "var(--card)" }} onClick={() => { stopSpeaking(); sfxTap(); onComplete(false); }}>Continue →</button>
           </div>
-        ) : <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Done).then(() => onComplete(false)); }}>Next Quest →</button>}
+        ) : <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Learned).then(() => speak(VOICE.q3Done)).then(() => onComplete(false)); }}>Next Quest →</button>}
       </div>
     );
   }

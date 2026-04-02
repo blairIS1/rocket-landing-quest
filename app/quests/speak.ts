@@ -45,10 +45,12 @@ export const VOICE = {
   q4AiRight: "q4_ai_right.mp3",
   q4FalseAlarm: "q4_false_alarm.mp3",
   q4Done: "q4_done.mp3",
+  q4Learned: "q4_learned.mp3",
   q5Start: "q5_start.mp3",
   q5Launch: "q5_launch.mp3",
   q5Done: "q5_done.mp3",
   allDone: "all_done.mp3",
+  q5Learned: "q5_learned.mp3",
   
   // UI Text Audio
   q1Title: "q1_title.mp3",
@@ -59,6 +61,7 @@ export const VOICE = {
   q1Perfect: "q1_perfect.mp3",
   q1TooHeavy: "q1_too_heavy.mp3",
   q1Next: "q1_next.mp3",
+  q1Learned: "q1_learned.mp3",
   
   menuTitle: "menu_title.mp3",
   menuSubtitle: "menu_subtitle.mp3",
@@ -88,6 +91,7 @@ export const VOICE = {
   q2Dangerous: "q2_dangerous.mp3",
   q2Labeled: "q2_labeled.mp3",
   q2Next: "q2_next.mp3",
+  q2Learned: "q2_learned.mp3",
   
   summaryTitle: "summary_title.mp3",
   summaryConfidence: "summary_confidence.mp3",
@@ -95,6 +99,7 @@ export const VOICE = {
   summaryMedium: "summary_medium.mp3",
   summaryHigh: "summary_high.mp3",
   summaryContinue: "summary_continue.mp3",
+  summaryLearned: "summary_learned.mp3",
   
   q3Title: "q3_title.mp3",
   q3Watching: "q3_watching.mp3",
@@ -107,6 +112,7 @@ export const VOICE = {
   q3NotBad: "q3_not_bad.mp3",
   q3NeedTraining: "q3_need_training.mp3",
   q3Next: "q3_next.mp3",
+  q3Learned: "q3_learned.mp3",
   
   q4Title: "q4_title.mp3",
   q4AiSays: "q4_ai_says.mp3",
