@@ -16,7 +16,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   
   useEffect(() => { 
     let cancelled = false;
-    speak(VOICE.q1Start).then(() => !cancelled && speak(VOICE.q1Title)).then(() => !cancelled && speak(VOICE.q1Instruction)); 
+    speak(VOICE.q1Start).then(() => { if (!cancelled) return speak(VOICE.q1Title); }).then(() => { if (!cancelled) return speak(VOICE.q1Instruction); }); 
     return () => { cancelled = true; stopSpeaking(); };
   }, []);
 
