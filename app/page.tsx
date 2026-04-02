@@ -9,9 +9,9 @@ import MarsLanding from "./quests/MarsLanding";
 import RocketBuddy from "./quests/RocketBuddy";
 import Confetti from "./quests/Confetti";
 import SessionTimer, { useSessionTimer } from "./quests/SessionTimer";
-import SpeakingIndicator, { useSpeaking } from "./quests/SpeakingIndicator";
+import SpeakingIndicator from "./quests/SpeakingIndicator";
 import { sfxTap, sfxCelebrate } from "./quests/sfx";
-import { speak, VOICE } from "./quests/speak";
+import { speak, stopSpeaking, VOICE } from "./quests/speak";
 import { startMusic, stopMusic } from "./quests/music";
 import { recordCompletion, getCompletions } from "./quests/scores";
 import { TrainingData } from "./quests/data";
@@ -39,19 +39,20 @@ export default function Home() {
   const [training, setTraining] = useState<TrainingData>({});
   const [completions, setCompletions] = useState(0);
   const { expired, dismiss } = useSessionTimer();
-  const speaking = useSpeaking();
 
   useEffect(() => { setCompletions(getCompletions()); }, []);
 
   const markDone = (i: number) => setCompleted((p) => { const n = [...p]; n[i] = true; return n; });
 
   const startGame = () => {
+    stopSpeaking(); // Auto-stop any playing audio
     sfxTap();
     startMusic();
     speak(VOICE.welcome).then(() => setPhase("menu"));
   };
 
   const startQuest = (p: Phase) => {
+    stopSpeaking(); // Auto-stop any playing audio
     sfxTap();
     setPhase(p);
   };
@@ -69,7 +70,7 @@ export default function Home() {
         <p className="text-base sm:text-xl text-center opacity-80 max-w-2xl px-4">
           Train an AI to land a rocket on Mars! Learn how real AI works through 5 exciting missions.
         </p>
-        <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame} disabled={speaking}>
+        <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame}>
           🎮 Start Adventure!
         </button>
         {completions > 0 && <p className="text-sm opacity-40">
@@ -110,7 +111,7 @@ export default function Home() {
           {QUESTS.map((q, i) => (
             <button key={i} className="btn btn-primary flex justify-between items-center text-sm sm:text-base"
               style={{ opacity: i === 0 || completed[i - 1] ? 1 : 0.4 }}
-              disabled={speaking || (i > 0 && !completed[i - 1])}
+              disabled={i > 0 && !completed[i - 1]}
               onClick={() => startQuest(phases[i])}>
               <span>{q.name}</span>
               {completed[i] ? <span>✅</span> : <span className="opacity-40">{PARTS[i].emoji}</span>}
