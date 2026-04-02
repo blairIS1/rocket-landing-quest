@@ -16,13 +16,19 @@ import { recordCompletion, getCompletions } from "./quests/scores";
 import { TrainingData } from "./quests/data";
 
 const PARTS = [
-  { emoji: "🔧", label: "Rocket" },
-  { emoji: "👁️", label: "Sensors" },
-  { emoji: "🧠", label: "AI Brain" },
-  { emoji: "🛡️", label: "Shields" },
-  { emoji: "🪐", label: "Mars!" },
+  { emoji: "🔧", label: "Rocket", voice: VOICE.partRocket },
+  { emoji: "👁️", label: "Sensors", voice: VOICE.partSensors },
+  { emoji: "🧠", label: "AI Brain", voice: VOICE.partBrain },
+  { emoji: "🛡️", label: "Shields", voice: VOICE.partShields },
+  { emoji: "🪐", label: "Mars!", voice: VOICE.partMars },
 ];
-const QUESTS = ["🔧 Build Rocket", "👁️ Train Landing AI", "🚀 Test Landing", "🛰️ Dodge Space Junk", "🪐 Mission to Mars"];
+const QUESTS = [
+  { name: "🔧 Build Rocket", voice: VOICE.questBuild },
+  { name: "👁️ Train Landing AI", voice: VOICE.questTrain },
+  { name: "🚀 Test Landing", voice: VOICE.questTest },
+  { name: "🛰️ Dodge Space Junk", voice: VOICE.questDodge },
+  { name: "🪐 Mission to Mars", voice: VOICE.questMars },
+];
 
 type Phase = "menu" | "q1" | "q2" | "summary" | "q3" | "q4" | "q5";
 
@@ -52,30 +58,41 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-8 fade-in">
         <Confetti active={completed.every(Boolean)} />
         <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} />
-        <h1 className="text-4xl font-bold text-center">Rocket Landing Quest!</h1>
-        <p className="text-lg text-center opacity-70 max-w-md">Collect all parts and fly to Mars!</p>
+        <h1 className="text-4xl font-bold text-center" onClick={() => speak(VOICE.menuTitle)} style={{cursor: "pointer"}}>
+          Rocket Landing Quest!
+        </h1>
+        <p className="text-lg text-center opacity-70 max-w-md" onClick={() => speak(VOICE.menuSubtitle)} style={{cursor: "pointer"}}>
+          Collect all parts and fly to Mars!
+        </p>
         <div className="flex gap-3">
           {PARTS.map((p, i) => (
             <div key={i} className="flex flex-col items-center gap-1" style={{ opacity: completed[i] ? 1 : 0.3 }}>
               <span className="text-3xl" style={{ filter: completed[i] ? "none" : "grayscale(1)" }}>{p.emoji}</span>
-              <span className="text-xs">{p.label}</span>
+              <span className="text-xs" onClick={() => speak(p.voice)} style={{cursor: "pointer"}}>{p.label}</span>
             </div>
           ))}
         </div>
-        <div className="text-sm opacity-60">{completed.filter(Boolean).length}/5 parts</div>
-        {completions > 0 && <p className="text-xs opacity-40">🏆 Completed {completions}x</p>}
+        <div className="text-sm opacity-60" onClick={() => speak(VOICE.menuParts)} style={{cursor: "pointer"}}>
+          {completed.filter(Boolean).length}/5 parts
+        </div>
+        {completions > 0 && <p className="text-xs opacity-40" onClick={() => speak(VOICE.menuCompleted)} style={{cursor: "pointer"}}>
+          🏆 Completed {completions}x
+        </p>}
         <div className="flex flex-col gap-3 w-full max-w-sm">
-          {QUESTS.map((name, i) => (
+          {QUESTS.map((q, i) => (
             <button key={i} className="btn btn-primary flex justify-between items-center"
               style={{ opacity: i === 0 || completed[i - 1] ? 1 : 0.4 }}
               disabled={i > 0 && !completed[i - 1]}
-              onClick={() => startQuest(phases[i])}>
-              <span>{name}</span>
+              onClick={() => startQuest(phases[i])}
+              onMouseEnter={() => speak(q.voice)}>
+              <span>{q.name}</span>
               {completed[i] ? <span>✅</span> : <span className="opacity-40">{PARTS[i].emoji}</span>}
             </button>
           ))}
         </div>
-        {completed.every(Boolean) && <div className="text-xl font-bold text-center fade-in" style={{ color: "var(--success)" }}>🎉 Mission complete! You landed on Mars!</div>}
+        {completed.every(Boolean) && <div className="text-xl font-bold text-center fade-in" style={{ color: "var(--success)" }} onClick={() => speak(VOICE.menuMissionComplete)}>
+          🎉 Mission complete! You landed on Mars!
+        </div>}
       </div>
     );
   }

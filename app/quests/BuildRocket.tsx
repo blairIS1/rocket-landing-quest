@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import RocketBuddy from "./RocketBuddy";
-import { sfxTap, sfxCorrect, sfxWrong } from "./sfx";
+import { sfxTap, sfxCorrect } from "./sfx";
 import { speak, VOICE } from "./speak";
 import Confetti from "./Confetti";
 
@@ -9,7 +9,10 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   const [engine, setEngine] = useState(0);
   const [fins, setFins] = useState(0);
   const [fuel, setFuel] = useState(0);
-  useEffect(() => { speak(VOICE.q1Start); }, []);
+  
+  useEffect(() => { 
+    speak(VOICE.q1Start).then(() => speak(VOICE.q1Title)).then(() => speak(VOICE.q1Instruction)); 
+  }, []);
 
   const engineOk = engine === 3;
   const finsOk = fins === 4;
@@ -18,17 +21,19 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   const mood = done ? "celebrate" as const : "idle" as const;
 
   const parts = [
-    { label: "Engines", emoji: "🔥", value: engine, set: setEngine, ideal: 3, max: 5 },
-    { label: "Fins", emoji: "🔺", value: fins, set: setFins, ideal: 4, max: 6 },
-    { label: "Fuel Tanks", emoji: "⛽", value: fuel, set: setFuel, ideal: 2, max: 4 },
+    { label: "Engines", emoji: "🔥", value: engine, set: setEngine, ideal: 3, max: 5, voice: VOICE.q1Engines },
+    { label: "Fins", emoji: "🔺", value: fins, set: setFins, ideal: 4, max: 6, voice: VOICE.q1Fins },
+    { label: "Fuel Tanks", emoji: "⛽", value: fuel, set: setFuel, ideal: 2, max: 4, voice: VOICE.q1Fuel },
   ];
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-8 fade-in">
       <Confetti active={done} />
-      <h2 className="text-3xl font-bold">🔧 Quest 1: Build the Rocket!</h2>
+      <h2 className="text-3xl font-bold" onClick={() => speak(VOICE.q1Title)} style={{cursor: "pointer"}}>
+        🔧 Quest 1: Build the Rocket!
+      </h2>
       <RocketBuddy mood={mood} size={120} />
-      <p className="opacity-70 text-center max-w-md text-sm">
+      <p className="opacity-70 text-center max-w-md text-sm" onClick={() => speak(VOICE.q1Instruction)} style={{cursor: "pointer"}}>
         Every rocket needs the right parts. Too few = can&apos;t fly. Too many = too heavy!
       </p>
 
@@ -40,8 +45,10 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
             <span className="text-2xl w-8">{p.emoji}</span>
             <div className="flex-1">
               <div className="flex justify-between text-sm mb-1">
-                <span>{p.label}</span>
-                <span>{ok ? "✅ Perfect!" : over ? "⚠️ Too heavy!" : `${p.value}/${p.ideal}`}</span>
+                <span onClick={() => speak(p.voice)} style={{cursor: "pointer"}}>{p.label}</span>
+                <span onClick={() => speak(ok ? VOICE.q1Perfect : over ? VOICE.q1TooHeavy : p.voice)} style={{cursor: "pointer"}}>
+                  {ok ? "✅ Perfect!" : over ? "⚠️ Too heavy!" : `${p.value}/${p.ideal}`}
+                </span>
               </div>
               <div className="progress-track">
                 <div className="progress-fill" style={{
@@ -51,14 +58,21 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
               </div>
             </div>
             <div className="flex gap-1">
-              <button className="btn px-3 py-1 text-lg" onClick={() => { sfxTap(); const n = Math.min(p.value + 1, p.max); p.set(n); if (n === p.ideal) sfxCorrect(); }} >+</button>
+              <button className="btn px-3 py-1 text-lg" onClick={() => { 
+                sfxTap(); 
+                const n = Math.min(p.value + 1, p.max); 
+                p.set(n); 
+                if (n === p.ideal) { sfxCorrect(); speak(VOICE.q1Perfect); }
+              }}>+</button>
               <button className="btn px-3 py-1 text-lg" style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
             </div>
           </div>
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { sfxTap(); speak(VOICE.q1Done).then(onComplete); }}>Next Quest →</button>}
+      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { sfxTap(); speak(VOICE.q1Next).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
+        Next Quest →
+      </button>}
     </div>
   );
 }
