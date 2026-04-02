@@ -19,22 +19,23 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
 
   const current = items[idx];
 
+  const advance = () => {
+    setFeedback(""); setMood("idle"); setShowConfetti(false);
+    if (idx + 1 < items.length) setIdx(idx + 1); else setDone(true);
+  };
+
   const answer = (choice: "safe" | "dangerous") => {
     const correct = choice === current.answer;
     if (correct) {
       sfxCorrect(); setMood("happy"); setShowConfetti(true);
       setTraining((t) => ({ ...t, [current.category]: (t[current.category] || 0) + 1 }));
       setFeedback("✅ Correct! The AI learned about " + current.label + "!");
-      speak(current.voiceCorrect);
+      speak(current.voiceCorrect).then(advance);
     } else {
       sfxWrong(); setMood("scared");
       setFeedback("Oops! That's actually " + current.answer + " 😅");
-      speak(current.voiceWrong);
+      speak(current.voiceWrong).then(advance);
     }
-    setTimeout(() => {
-      setFeedback(""); setMood("idle"); setShowConfetti(false);
-      if (idx + 1 < items.length) setIdx(idx + 1); else setDone(true);
-    }, 1500);
   };
 
   if (done) {

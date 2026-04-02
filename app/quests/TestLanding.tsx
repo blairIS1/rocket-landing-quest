@@ -19,11 +19,12 @@ export default function TestLanding({ training, onComplete }: { training: Traini
   const scene = rounds[idx];
   const confColor = scene?.confidence >= 70 ? "#4ade80" : scene?.confidence >= 45 ? "#fbbf24" : "#ef4444";
 
+  const advance = () => { setPicked(null); setMood("thinking"); setShowConfetti(false); if (idx + 1 < rounds.length) setIdx(idx + 1); else setDone(true); };
+
   const choose = (c: string) => {
     setPicked(c);
-    if (c === scene.correct) { sfxCorrect(); setMood("happy"); setShowConfetti(true); speak(VOICE.correct); }
-    else { sfxWrong(); setMood("scared"); setMistakes((m) => m + 1); speak(VOICE.wrong); }
-    setTimeout(() => { setPicked(null); setMood("thinking"); setShowConfetti(false); if (idx + 1 < rounds.length) setIdx(idx + 1); else setDone(true); }, 2500);
+    if (c === scene.correct) { sfxCorrect(); setMood("happy"); setShowConfetti(true); speak(VOICE.correct).then(advance); }
+    else { sfxWrong(); setMood("scared"); setMistakes((m) => m + 1); speak(VOICE.wrong).then(advance); }
   };
 
   if (done) {
