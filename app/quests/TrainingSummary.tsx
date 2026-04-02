@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { CATEGORIES, TrainingData, getConfidence } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxTap } from "./sfx";
-import { speak, VOICE } from "./speak";
+import { speak, stopSpeaking, VOICE } from "./speak";
 
 const CAT_EMOJI: Record<string, string> = { wind: "💨", tilt: "📐", fuel: "⛽", obstacles: "🚢", speed: "⚡" };
 
@@ -51,7 +51,7 @@ export default function TrainingSummary({ training, onComplete }: { training: Tr
         </div>
       )}
       {!isBiased && missing.length > 0 && <p className="text-base opacity-70 text-center max-w-sm">⚠️ No data for {missing.join(", ")}!</p>}
-      <button className="btn btn-success mt-4" onClick={() => { sfxTap(); onComplete(); }}>Test Landing →</button>
+      <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); onComplete(); }}>Test Landing →</button>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { TrainingData, getConfidence, CATEGORIES } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCorrect, sfxTap, sfxCelebrate } from "./sfx";
-import { speak, VOICE } from "./speak";
+import { speak, stopSpeaking, VOICE } from "./speak";
 import Confetti from "./Confetti";
 
 const MISSION_STEPS = [
@@ -45,7 +45,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
         <p className="text-lg opacity-80 text-center max-w-md">
           Your training data helped the rocket land on Mars! Real space AI learns from millions of simulations — just like you taught it!
         </p>
-        <button className="btn btn-success mt-4" onClick={() => { sfxTap(); speak(VOICE.allDone).then(onComplete); }}>🏠 Mission Complete!</button>
+        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.allDone).then(onComplete); }}>🏠 Mission Complete!</button>
       </div>
     );
   }

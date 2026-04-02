@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { TRAIN_ITEMS, TrainingData } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCorrect, sfxWrong, sfxTap } from "./sfx";
-import { speak, VOICE } from "./speak";
+import { speak, stopSpeaking, VOICE } from "./speak";
 import Confetti from "./Confetti";
 
 export default function TrainLanding({ onComplete }: { onComplete: (data: TrainingData) => void }) {
@@ -44,7 +44,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
         <Confetti active={true} />
         <RocketBuddy mood="celebrate" size={120} />
         <h2 className="text-3xl font-bold">🧠 Training Complete!</h2>
-        <button className="btn btn-success mt-4" onClick={() => { sfxTap(); speak(VOICE.q2Done).then(() => onComplete(training)); }}>
+        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q2Done).then(() => onComplete(training)); }}>
           See Results →
         </button>
       </div>

@@ -17,6 +17,14 @@ export function speak(key: string): Promise<void> {
   return queue;
 }
 
+export function stopSpeaking(): void {
+  if (current) {
+    current.pause();
+    current = null;
+  }
+  queue = Promise.resolve();
+}
+
 export const VOICE = {
   // Main narration
   welcome: "welcome.mp3",
