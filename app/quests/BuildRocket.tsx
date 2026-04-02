@@ -71,13 +71,13 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
               </div>
             </div>
             <div className="flex gap-1">
-              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" disabled={speaking} onClick={() => { 
-                sfxTap(); 
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" onClick={() => { 
+                sfxTap(); stopSpeaking();
                 const n = Math.min(p.value + 1, p.max); 
                 p.set(n); 
                 if (n === p.ideal) { sfxCorrect(); speak(VOICE.q1Perfect); }
               }}>+</button>
-              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" disabled={speaking} style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" style={{ background: "#475569" }} onClick={() => { sfxTap(); stopSpeaking(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
             </div>
           </div>
         );

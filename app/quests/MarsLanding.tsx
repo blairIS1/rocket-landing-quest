@@ -82,7 +82,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
       </div>
 
       {!auto ? (
-        <button className="btn btn-primary text-xl mt-4" disabled={speaking} onClick={() => { sfxTap(); setAuto(true); speak(VOICE.q5Launch); }}>
+        <button className="btn btn-primary text-xl mt-4" onClick={() => { stopSpeaking(); sfxTap(); setAuto(true); speak(VOICE.q5Launch); }}>
           🚀 Launch!
         </button>
       ) : (

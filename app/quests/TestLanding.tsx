@@ -71,8 +71,8 @@ export default function TestLanding({ training, onComplete }: { training: Traini
         </div>
       ) : (
         <div className="flex gap-4 fade-in">
-          <button className="btn text-xl" disabled={speaking} style={{ background: "#ef4444" }} onClick={() => { sfxTap(); choose("dangerous"); }}>⚠️ DANGEROUS</button>
-          <button className="btn text-xl" disabled={speaking} style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); choose("safe"); }}>✅ SAFE</button>
+          <button className="btn text-xl" style={{ background: "#ef4444" }} onClick={() => { stopSpeaking(); sfxTap(); choose("dangerous"); }}>⚠️ DANGEROUS</button>
+          <button className="btn text-xl" style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { stopSpeaking(); sfxTap(); choose("safe"); }}>✅ SAFE</button>
         </div>
       )}
     </div>

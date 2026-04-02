@@ -67,8 +67,8 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
       <div className="text-lg min-h-[2em] font-semibold">{feedback}</div>
       {!feedback && (
         <div className="flex gap-4 fade-in">
-          <button className="btn text-2xl" disabled={speaking} style={{ background: "#ef4444" }} onClick={() => { sfxTap(); answer("dangerous"); }}>⚠️ DANGEROUS</button>
-          <button className="btn text-2xl" disabled={speaking} style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); answer("safe"); }}>✅ SAFE</button>
+          <button className="btn text-2xl" style={{ background: "#ef4444" }} onClick={() => { stopSpeaking(); sfxTap(); answer("dangerous"); }}>⚠️ DANGEROUS</button>
+          <button className="btn text-2xl" style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { stopSpeaking(); sfxTap(); answer("safe"); }}>✅ SAFE</button>
         </div>
       )}
     </div>
