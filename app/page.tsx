@@ -30,27 +30,51 @@ const QUESTS = [
   { name: "🪐 Mission to Mars", voice: VOICE.questMars },
 ];
 
-type Phase = "menu" | "q1" | "q2" | "summary" | "q3" | "q4" | "q5";
+type Phase = "start" | "menu" | "q1" | "q2" | "summary" | "q3" | "q4" | "q5";
 
 export default function Home() {
-  const [phase, setPhase] = useState<Phase>("menu");
+  const [phase, setPhase] = useState<Phase>("start");
   const [completed, setCompleted] = useState<boolean[]>([false, false, false, false, false]);
   const [training, setTraining] = useState<TrainingData>({});
   const [completions, setCompletions] = useState(0);
-  const [welcomed, setWelcomed] = useState(false);
   const { expired, dismiss } = useSessionTimer();
 
   useEffect(() => { setCompletions(getCompletions()); }, []);
 
   const markDone = (i: number) => setCompleted((p) => { const n = [...p]; n[i] = true; return n; });
 
+  const startGame = () => {
+    sfxTap();
+    startMusic();
+    speak(VOICE.welcome).then(() => setPhase("menu"));
+  };
+
   const startQuest = (p: Phase) => {
     sfxTap();
-    if (!welcomed) { setWelcomed(true); startMusic(); speak(VOICE.welcome).then(() => setPhase(p)); }
-    else setPhase(p);
+    setPhase(p);
   };
 
   if (expired) { stopMusic(); return <SessionTimer onDismiss={dismiss} />; }
+
+  if (phase === "start") {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4 sm:p-8 fade-in">
+        <RocketBuddy mood="idle" size={160} />
+        <h1 className="text-3xl sm:text-5xl font-bold text-center px-4">
+          🚀 Rocket Landing Quest
+        </h1>
+        <p className="text-base sm:text-xl text-center opacity-80 max-w-2xl px-4">
+          Train an AI to land a rocket on Mars! Learn how real AI works through 5 exciting missions.
+        </p>
+        <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame}>
+          🎮 Start Adventure!
+        </button>
+        {completions > 0 && <p className="text-sm opacity-40">
+          🏆 You've completed this {completions} time{completions > 1 ? 's' : ''}!
+        </p>}
+      </div>
+    );
+  }
 
   if (phase === "menu") {
     const phases: Phase[] = ["q1", "q2", "q3", "q4", "q5"];
