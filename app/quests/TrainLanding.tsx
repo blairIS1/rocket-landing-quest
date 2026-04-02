@@ -25,11 +25,11 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
       sfxCorrect(); setMood("happy"); setShowConfetti(true);
       setTraining((t) => ({ ...t, [current.category]: (t[current.category] || 0) + 1 }));
       setFeedback("✅ Correct! The AI learned about " + current.label + "!");
-      speak(VOICE.correct);
+      speak(current.voiceCorrect);
     } else {
       sfxWrong(); setMood("scared");
       setFeedback("Oops! That's actually " + current.answer + " 😅");
-      speak(VOICE.wrong);
+      speak(current.voiceWrong);
     }
     setTimeout(() => {
       setFeedback(""); setMood("idle"); setShowConfetti(false);

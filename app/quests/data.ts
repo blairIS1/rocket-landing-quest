@@ -11,16 +11,16 @@ export function getConfidence(training: TrainingData, cat: string): number {
 
 // Quest 2: Training items — label landing scenarios as safe/dangerous
 export const TRAIN_ITEMS = [
-  { emoji: "💨", label: "Strong crosswind", answer: "dangerous" as const, category: "wind" },
-  { emoji: "🌬️", label: "Light breeze", answer: "safe" as const, category: "wind" },
-  { emoji: "📐", label: "Rocket tilting 45°", answer: "dangerous" as const, category: "tilt" },
-  { emoji: "📏", label: "Rocket straight up", answer: "safe" as const, category: "tilt" },
-  { emoji: "⛽", label: "Fuel tank almost empty", answer: "dangerous" as const, category: "fuel" },
-  { emoji: "🛢️", label: "Plenty of fuel left", answer: "safe" as const, category: "fuel" },
-  { emoji: "🚢", label: "Drone ship rocking", answer: "dangerous" as const, category: "obstacles" },
-  { emoji: "🏗️", label: "Clear landing pad", answer: "safe" as const, category: "obstacles" },
-  { emoji: "⚡", label: "Coming in too fast", answer: "dangerous" as const, category: "speed" },
-  { emoji: "🪂", label: "Slow steady descent", answer: "safe" as const, category: "speed" },
+  { emoji: "💨", label: "Strong crosswind", answer: "dangerous" as const, category: "wind", voiceCorrect: "t_wind_danger_y.mp3", voiceWrong: "t_wind_danger_n.mp3" },
+  { emoji: "🌬️", label: "Light breeze", answer: "safe" as const, category: "wind", voiceCorrect: "t_wind_safe_y.mp3", voiceWrong: "t_wind_safe_n.mp3" },
+  { emoji: "📐", label: "Rocket tilting 45°", answer: "dangerous" as const, category: "tilt", voiceCorrect: "t_tilt_danger_y.mp3", voiceWrong: "t_tilt_danger_n.mp3" },
+  { emoji: "📏", label: "Rocket straight up", answer: "safe" as const, category: "tilt", voiceCorrect: "t_tilt_safe_y.mp3", voiceWrong: "t_tilt_safe_n.mp3" },
+  { emoji: "⛽", label: "Fuel tank almost empty", answer: "dangerous" as const, category: "fuel", voiceCorrect: "t_fuel_danger_y.mp3", voiceWrong: "t_fuel_danger_n.mp3" },
+  { emoji: "🛢️", label: "Plenty of fuel left", answer: "safe" as const, category: "fuel", voiceCorrect: "t_fuel_safe_y.mp3", voiceWrong: "t_fuel_safe_n.mp3" },
+  { emoji: "🚢", label: "Drone ship rocking", answer: "dangerous" as const, category: "obstacles", voiceCorrect: "t_obs_danger_y.mp3", voiceWrong: "t_obs_danger_n.mp3" },
+  { emoji: "🏗️", label: "Clear landing pad", answer: "safe" as const, category: "obstacles", voiceCorrect: "t_obs_safe_y.mp3", voiceWrong: "t_obs_safe_n.mp3" },
+  { emoji: "⚡", label: "Coming in too fast", answer: "dangerous" as const, category: "speed", voiceCorrect: "t_speed_danger_y.mp3", voiceWrong: "t_speed_danger_n.mp3" },
+  { emoji: "🪂", label: "Slow steady descent", answer: "safe" as const, category: "speed", voiceCorrect: "t_speed_safe_y.mp3", voiceWrong: "t_speed_safe_n.mp3" },
 ];
 
 // AI features for reasoning display
