@@ -53,6 +53,7 @@ export default function DodgeDebris({ onComplete }: { onComplete: () => void }) 
     setPhase("result");
     setRocketY((y) => y > 50 ? y - 20 : y + 20);
     if (aiWrong) { setSaves((s) => s + 1); sfxCorrect(); speak(VOICE.q4Save); }
+    else { speak(VOICE.q4FalseAlarm); }
   }, [phase, aiActed, aiWrong]);
 
   const advance = () => {
