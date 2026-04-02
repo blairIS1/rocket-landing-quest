@@ -80,7 +80,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
+      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned); onComplete(); }}>
         Next Quest →
       </button>}
     </div>

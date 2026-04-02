@@ -53,7 +53,7 @@ export default function TrainingSummary({ training, onComplete }: { training: Tr
         </div>
       )}
       {!isBiased && missing.length > 0 && <p className="text-base opacity-70 text-center max-w-sm">⚠️ No data for {missing.join(", ")}!</p>}
-      <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.summaryLearned).then(onComplete); }}>Test Landing →</button>
+      <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.summaryLearned); onComplete(); }}>Test Landing →</button>
     </div>
   );
 }

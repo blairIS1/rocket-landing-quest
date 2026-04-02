@@ -47,7 +47,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
         <p className="text-lg opacity-80 text-center max-w-md">
           Your training data helped the rocket land on Mars! Real space AI learns from millions of simulations — just like you taught it!
         </p>
-        <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q5Learned).then(() => speak(VOICE.allDone)).then(onComplete); }}>🏠 Mission Complete!</button>
+        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q5Learned); onComplete(); }}>🏠 Mission Complete!</button>
       </div>
     );
   }

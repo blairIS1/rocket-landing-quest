@@ -46,7 +46,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
         <Confetti active={true} />
         <RocketBuddy mood="celebrate" size={120} />
         <h2 className="text-3xl font-bold">🧠 Training Complete!</h2>
-        <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q2Learned).then(() => speak(VOICE.q2Done)).then(() => onComplete(training)); }}>
+        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q2Learned); onComplete(training); }}>
           See Results →
         </button>
       </div>

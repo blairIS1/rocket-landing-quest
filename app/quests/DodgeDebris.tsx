@@ -72,7 +72,7 @@ export default function DodgeDebris({ onComplete }: { onComplete: () => void }) 
         <h2 className="text-3xl font-bold">Space Navigation Complete!</h2>
         <div className="flex gap-6 text-lg"><span>🦸 Dodged: {saves}/{totalDodge}</span><span>😅 Oops: {oops}</span></div>
         <p className="text-lg opacity-80 text-center max-w-md">Real satellites dodge debris thousands of times! You were mission control!</p>
-        <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); sfxCelebrate(); speak(VOICE.q4Learned).then(() => speak(VOICE.q4Done)).then(onComplete); }}>Final Quest →</button>
+        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); sfxCelebrate(); speak(VOICE.q4Learned); onComplete(); }}>Final Quest →</button>
       </div>
     );
   }
