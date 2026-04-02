@@ -5,14 +5,13 @@ import SpeakingIndicator from "./SpeakingIndicator";
 import ReplayButton from "./ReplayButton";
 import { sfxTap, sfxCorrect } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
-import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 export default function BuildRocket({ onComplete }: { onComplete: () => void }) {
   const [engine, setEngine] = useState(0);
   const [fins, setFins] = useState(0);
   const [fuel, setFuel] = useState(0);
-  const [navigating, setNavigating] = useState(false);
+  const [done, setDone] = useState(false);
   
   useEffect(() => { 
     let cancelled = false;
@@ -20,13 +19,14 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
     return () => { cancelled = true; stopSpeaking(); };
   }, []);
 
-  const speaking = useSpeaking();
-
   const engineOk = engine === 3;
   const finsOk = fins === 4;
   const fuelOk = fuel === 2;
-  const done = engineOk && finsOk && fuelOk;
-  const mood = done ? "celebrate" as const : "idle" as const;
+  const allCorrect = engineOk && finsOk && fuelOk;
+
+  useEffect(() => { if (allCorrect) setDone(true); }, [allCorrect]);
+
+  const mood = allCorrect ? "celebrate" as const : "idle" as const;
 
   const parts = [
     { label: "Engines", emoji: "🔥", value: engine, set: setEngine, ideal: 3, max: 5, voice: VOICE.q1Engines },
@@ -37,7 +37,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-4 sm:p-8 fade-in">
       <SpeakingIndicator />
-      <Confetti active={done} />
+      <Confetti active={allCorrect} />
       <h2 className="text-2xl sm:text-3xl font-bold text-center px-4 flex items-center gap-2 justify-center">
         🔧 Quest 1: Build the Rocket!
         <ReplayButton voiceKey={VOICE.q1Title} />
@@ -83,7 +83,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" disabled={navigating} onClick={() => { setNavigating(true); stopSpeaking(); sfxTap(); speak(VOICE.q1Learned); onComplete(); }}>
+      {done && <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); onComplete(); }}>
         Next Quest →
       </button>}
     </div>
