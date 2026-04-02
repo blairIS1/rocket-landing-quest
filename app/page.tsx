@@ -48,7 +48,7 @@ export default function Home() {
     stopSpeaking(); // Auto-stop any playing audio
     sfxTap();
     startMusic();
-    speak(VOICE.welcome).then(() => setPhase("menu"));
+    speak(VOICE.welcome).then(() => { setPhase("menu"); speak(VOICE.menuSubtitle); });
   };
 
   const startQuest = (p: Phase) => {
