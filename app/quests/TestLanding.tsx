@@ -23,8 +23,8 @@ export default function TestLanding({ training, onComplete }: { training: Traini
 
   const choose = (c: string) => {
     setPicked(c);
-    if (c === scene.correct) { sfxCorrect(); setMood("happy"); setShowConfetti(true); speak(VOICE.correct).then(advance); }
-    else { sfxWrong(); setMood("scared"); setMistakes((m) => m + 1); speak(VOICE.wrong).then(advance); }
+    if (c === scene.correct) { sfxCorrect(); setMood("happy"); setShowConfetti(true); setTimeout(advance, 1000); }
+    else { sfxWrong(); setMood("scared"); setMistakes((m) => m + 1); setTimeout(advance, 1000); }
   };
 
   if (done) {
