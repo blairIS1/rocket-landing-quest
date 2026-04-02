@@ -3,6 +3,8 @@
 const BASE = "/rocket-landing-quest/audio/";
 let current: HTMLAudioElement | null = null;
 let queue: Promise<void> = Promise.resolve();
+let isSpeaking = false;
+let listeners: Set<() => void> = new Set();
 
 export function speak(key: string): Promise<void> {
   queue = queue.then(() => new Promise<void>((resolve) => {
@@ -10,9 +12,11 @@ export function speak(key: string): Promise<void> {
     if (current) { current.pause(); current = null; }
     const a = new Audio(BASE + key);
     current = a;
-    a.onended = () => { current = null; resolve(); };
-    a.onerror = () => { current = null; resolve(); };
-    a.play().catch(() => resolve());
+    isSpeaking = true;
+    notifyListeners();
+    a.onended = () => { current = null; isSpeaking = false; notifyListeners(); resolve(); };
+    a.onerror = () => { current = null; isSpeaking = false; notifyListeners(); resolve(); };
+    a.play().catch(() => { isSpeaking = false; notifyListeners(); resolve(); });
   }));
   return queue;
 }
@@ -22,7 +26,22 @@ export function stopSpeaking(): void {
     current.pause();
     current = null;
   }
+  isSpeaking = false;
+  notifyListeners();
   queue = Promise.resolve();
+}
+
+export function getIsSpeaking(): boolean {
+  return isSpeaking;
+}
+
+export function onSpeakingChange(callback: () => void): () => void {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
+}
+
+function notifyListeners(): void {
+  listeners.forEach(cb => cb());
 }
 
 export const VOICE = {

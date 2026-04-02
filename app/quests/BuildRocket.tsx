@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import RocketBuddy from "./RocketBuddy";
+import SpeakingIndicator, { useSpeaking } from "./SpeakingIndicator";
 import { sfxTap, sfxCorrect } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
 import Confetti from "./Confetti";
@@ -8,6 +9,7 @@ import Confetti from "./Confetti";
 export default function BuildRocket({ onComplete }: { onComplete: () => void }) {
   const [engine, setEngine] = useState(0);
   const [fins, setFins] = useState(0);
+  const speaking = useSpeaking();
   const [fuel, setFuel] = useState(0);
   
   useEffect(() => { 
@@ -28,6 +30,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-4 sm:p-8 fade-in">
+      <SpeakingIndicator />
       <Confetti active={done} />
       <h2 className="text-2xl sm:text-3xl font-bold text-center px-4" onClick={() => speak(VOICE.q1Title)} style={{cursor: "pointer"}}>
         🔧 Quest 1: Build the Rocket!
@@ -70,7 +73,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
+      {done && <button className="btn btn-success mt-4 fade-in" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
         Next Quest →
       </button>}
     </div>
