@@ -107,8 +107,7 @@ export default function Home() {
             <button key={i} className="btn btn-primary flex justify-between items-center text-sm sm:text-base"
               style={{ opacity: i === 0 || completed[i - 1] ? 1 : 0.4 }}
               disabled={i > 0 && !completed[i - 1]}
-              onClick={() => startQuest(phases[i])}
-              onMouseEnter={() => speak(q.voice)}>
+              onClick={() => startQuest(phases[i])}>
               <span>{q.name}</span>
               {completed[i] ? <span>✅</span> : <span className="opacity-40">{PARTS[i].emoji}</span>}
             </button>
