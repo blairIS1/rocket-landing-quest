@@ -4,6 +4,7 @@ import { TrainingData, generateLandingRounds } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCorrect, sfxWrong, sfxTap } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
+import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 export default function TestLanding({ training, onComplete }: { training: TrainingData; onComplete: (needsRetrain: boolean) => void }) {
@@ -14,6 +15,7 @@ export default function TestLanding({ training, onComplete }: { training: Traini
   const [mood, setMood] = useState<"thinking" | "happy" | "scared">("thinking");
   const [showConfetti, setShowConfetti] = useState(false);
   const [done, setDone] = useState(false);
+  const speaking = useSpeaking();
 
   useEffect(() => { speak(VOICE.q3Start); }, []);
   const scene = rounds[idx];
@@ -37,10 +39,10 @@ export default function TestLanding({ training, onComplete }: { training: Traini
         <p className="text-lg opacity-80">{mistakes === 0 ? "Perfect landings!" : `${mistakes} mistake${mistakes > 1 ? "s" : ""}. ${needsRetrain ? "Need more training!" : "Not bad!"}`}</p>
         {needsRetrain ? (
           <div className="flex gap-3 mt-4">
-            <button className="btn" style={{ background: "var(--accent)", color: "#0f172a" }} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Retrain).then(() => onComplete(true)); }}>🔄 Retrain</button>
-            <button className="btn" style={{ background: "var(--card)" }} onClick={() => { stopSpeaking(); sfxTap(); onComplete(false); }}>Continue →</button>
+            <button className="btn" style={{ background: "var(--accent)", color: "#0f172a" }} disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Retrain).then(() => onComplete(true)); }}>🔄 Retrain</button>
+            <button className="btn" style={{ background: "var(--card)" }} disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); onComplete(false); }}>Continue →</button>
           </div>
-        ) : <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Learned).then(() => speak(VOICE.q3Done)).then(() => onComplete(false)); }}>Next Quest →</button>}
+        ) : <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q3Learned).then(() => speak(VOICE.q3Done)).then(() => onComplete(false)); }}>Next Quest →</button>}
       </div>
     );
   }
@@ -69,8 +71,8 @@ export default function TestLanding({ training, onComplete }: { training: Traini
         </div>
       ) : (
         <div className="flex gap-4 fade-in">
-          <button className="btn text-xl" style={{ background: "#ef4444" }} onClick={() => { sfxTap(); choose("dangerous"); }}>⚠️ DANGEROUS</button>
-          <button className="btn text-xl" style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); choose("safe"); }}>✅ SAFE</button>
+          <button className="btn text-xl" disabled={speaking} style={{ background: "#ef4444" }} onClick={() => { sfxTap(); choose("dangerous"); }}>⚠️ DANGEROUS</button>
+          <button className="btn text-xl" disabled={speaking} style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); choose("safe"); }}>✅ SAFE</button>
         </div>
       )}
     </div>

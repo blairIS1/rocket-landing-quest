@@ -4,6 +4,7 @@ import { CATEGORIES, TrainingData, getConfidence } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxTap } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
+import { useSpeaking } from "./SpeakingIndicator";
 
 const CAT_EMOJI: Record<string, string> = { wind: "💨", tilt: "📐", fuel: "⛽", obstacles: "🚢", speed: "⚡" };
 
@@ -13,6 +14,7 @@ export default function TrainingSummary({ training, onComplete }: { training: Tr
   const maxCat = CATEGORIES.reduce((a, b) => ((training[a] || 0) > (training[b] || 0) ? a : b));
   const maxCount = training[maxCat] || 0;
   const isBiased = total > 0 && maxCount / total > 0.5;
+  const speaking = useSpeaking();
 
   useEffect(() => { speak(VOICE.summary).then(() => { if (isBiased) speak(VOICE.summaryBias); }); }, [isBiased]);
 
@@ -51,7 +53,7 @@ export default function TrainingSummary({ training, onComplete }: { training: Tr
         </div>
       )}
       {!isBiased && missing.length > 0 && <p className="text-base opacity-70 text-center max-w-sm">⚠️ No data for {missing.join(", ")}!</p>}
-      <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.summaryLearned).then(onComplete); }}>Test Landing →</button>
+      <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.summaryLearned).then(onComplete); }}>Test Landing →</button>
     </div>
   );
 }

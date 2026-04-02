@@ -4,6 +4,7 @@ import { TrainingData, getConfidence, CATEGORIES } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCorrect, sfxTap, sfxCelebrate } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
+import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 const MISSION_STEPS = [
@@ -19,6 +20,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [auto, setAuto] = useState(false);
+  const speaking = useSpeaking();
 
   useEffect(() => { speak(VOICE.q5Start); }, []);
 
@@ -45,7 +47,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
         <p className="text-lg opacity-80 text-center max-w-md">
           Your training data helped the rocket land on Mars! Real space AI learns from millions of simulations — just like you taught it!
         </p>
-        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q5Learned).then(() => speak(VOICE.allDone)).then(onComplete); }}>🏠 Mission Complete!</button>
+        <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q5Learned).then(() => speak(VOICE.allDone)).then(onComplete); }}>🏠 Mission Complete!</button>
       </div>
     );
   }
@@ -80,7 +82,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
       </div>
 
       {!auto ? (
-        <button className="btn btn-primary text-xl mt-4" onClick={() => { sfxTap(); setAuto(true); speak(VOICE.q5Launch); }}>
+        <button className="btn btn-primary text-xl mt-4" disabled={speaking} onClick={() => { sfxTap(); setAuto(true); speak(VOICE.q5Launch); }}>
           🚀 Launch!
         </button>
       ) : (

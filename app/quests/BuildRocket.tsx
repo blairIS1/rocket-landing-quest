@@ -5,6 +5,7 @@ import SpeakingIndicator from "./SpeakingIndicator";
 import ReplayButton from "./ReplayButton";
 import { sfxTap, sfxCorrect } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
+import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 export default function BuildRocket({ onComplete }: { onComplete: () => void }) {
@@ -15,6 +16,8 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
   useEffect(() => { 
     speak(VOICE.q1Start).then(() => speak(VOICE.q1Title)).then(() => speak(VOICE.q1Instruction)); 
   }, []);
+
+  const speaking = useSpeaking();
 
   const engineOk = engine === 3;
   const finsOk = fins === 4;
@@ -65,19 +68,19 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
               </div>
             </div>
             <div className="flex gap-1">
-              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" onClick={() => { 
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" disabled={speaking} onClick={() => { 
                 sfxTap(); 
                 const n = Math.min(p.value + 1, p.max); 
                 p.set(n); 
                 if (n === p.ideal) { sfxCorrect(); speak(VOICE.q1Perfect); }
               }}>+</button>
-              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
+              <button className="btn px-2 sm:px-3 py-1 text-base sm:text-lg" disabled={speaking} style={{ background: "#475569" }} onClick={() => { sfxTap(); p.set(Math.max(p.value - 1, 0)); }}>−</button>
             </div>
           </div>
         );
       })}
 
-      {done && <button className="btn btn-success mt-4 fade-in" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
+      {done && <button className="btn btn-success mt-4 fade-in" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q1Learned).then(() => speak(VOICE.q1Done)).then(onComplete); }}>
         Next Quest →
       </button>}
     </div>

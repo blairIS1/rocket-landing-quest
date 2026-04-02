@@ -4,6 +4,7 @@ import { TRAIN_ITEMS, TrainingData } from "./data";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCorrect, sfxWrong, sfxTap } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
+import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 export default function TrainLanding({ onComplete }: { onComplete: (data: TrainingData) => void }) {
@@ -14,6 +15,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
   const [mood, setMood] = useState<"idle" | "happy" | "scared">("idle");
   const [showConfetti, setShowConfetti] = useState(false);
   const [done, setDone] = useState(false);
+  const speaking = useSpeaking();
 
   useEffect(() => { speak(VOICE.q2Start); }, []);
 
@@ -44,7 +46,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
         <Confetti active={true} />
         <RocketBuddy mood="celebrate" size={120} />
         <h2 className="text-3xl font-bold">🧠 Training Complete!</h2>
-        <button className="btn btn-success mt-4" onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q2Learned).then(() => speak(VOICE.q2Done)).then(() => onComplete(training)); }}>
+        <button className="btn btn-success mt-4" disabled={speaking} onClick={() => { stopSpeaking(); sfxTap(); speak(VOICE.q2Learned).then(() => speak(VOICE.q2Done)).then(() => onComplete(training)); }}>
           See Results →
         </button>
       </div>
@@ -65,8 +67,8 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
       <div className="text-lg min-h-[2em] font-semibold">{feedback}</div>
       {!feedback && (
         <div className="flex gap-4 fade-in">
-          <button className="btn text-2xl" style={{ background: "#ef4444" }} onClick={() => { sfxTap(); answer("dangerous"); }}>⚠️ DANGEROUS</button>
-          <button className="btn text-2xl" style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); answer("safe"); }}>✅ SAFE</button>
+          <button className="btn text-2xl" disabled={speaking} style={{ background: "#ef4444" }} onClick={() => { sfxTap(); answer("dangerous"); }}>⚠️ DANGEROUS</button>
+          <button className="btn text-2xl" disabled={speaking} style={{ background: "var(--success)", color: "#0f172a" }} onClick={() => { sfxTap(); answer("safe"); }}>✅ SAFE</button>
         </div>
       )}
     </div>

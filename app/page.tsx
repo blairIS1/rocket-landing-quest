@@ -9,7 +9,7 @@ import MarsLanding from "./quests/MarsLanding";
 import RocketBuddy from "./quests/RocketBuddy";
 import Confetti from "./quests/Confetti";
 import SessionTimer, { useSessionTimer } from "./quests/SessionTimer";
-import SpeakingIndicator from "./quests/SpeakingIndicator";
+import SpeakingIndicator, { useSpeaking } from "./quests/SpeakingIndicator";
 import { sfxTap, sfxCelebrate } from "./quests/sfx";
 import { speak, stopSpeaking, VOICE } from "./quests/speak";
 import { startMusic, stopMusic } from "./quests/music";
@@ -39,6 +39,7 @@ export default function Home() {
   const [training, setTraining] = useState<TrainingData>({});
   const [completions, setCompletions] = useState(0);
   const { expired, dismiss } = useSessionTimer();
+  const speaking = useSpeaking();
 
   useEffect(() => { setCompletions(getCompletions()); }, []);
 
@@ -111,7 +112,7 @@ export default function Home() {
           {QUESTS.map((q, i) => (
             <button key={i} className="btn btn-primary flex justify-between items-center text-sm sm:text-base"
               style={{ opacity: i === 0 || completed[i - 1] ? 1 : 0.4 }}
-              disabled={i > 0 && !completed[i - 1]}
+              disabled={speaking || (i > 0 && !completed[i - 1])}
               onClick={() => startQuest(phases[i])}>
               <span>{q.name}</span>
               {completed[i] ? <span>✅</span> : <span className="opacity-40">{PARTS[i].emoji}</span>}
