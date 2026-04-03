@@ -60,7 +60,7 @@ export default function TrainLanding({ onComplete }: { onComplete: (data: Traini
       <RocketBuddy mood={mood} size={80} />
       <p className="opacity-70 text-center max-w-md text-sm">Is this landing condition safe or dangerous?</p>
       <div className="text-sm opacity-70">{idx + 1} / {items.length}</div>
-      <div className="progress-track w-64"><div className="progress-fill" style={{ width: `${(idx / items.length) * 100}%` }} /></div>
+      <div className="progress-track w-64"><div className="progress-fill" style={{ width: `${((idx + 1) / items.length) * 100}%` }} /></div>
       <div className="text-8xl my-2">{current.emoji}</div>
       <div className="text-xl font-semibold">{current.label}</div>
       <div className="text-xs opacity-50">Category: {current.category}</div>
