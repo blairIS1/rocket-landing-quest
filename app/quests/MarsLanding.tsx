@@ -8,12 +8,12 @@ import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
 
 const MISSION_STEPS = [
-  { label: "🔥 Launch!", desc: "Engines firing — liftoff!" },
-  { label: "🌍 Leave atmosphere", desc: "Passing through the clouds..." },
-  { label: "🛰️ Orbit achieved", desc: "We're in space!" },
-  { label: "🪐 Course to Mars", desc: "Setting trajectory..." },
-  { label: "🔴 Mars approach", desc: "Almost there!" },
-  { label: "🪂 Entry & landing", desc: "Deploying parachutes and thrusters!" },
+  { label: "🔥 Launch!", desc: "Engines firing — liftoff!", voice: VOICE.q5Launch },
+  { label: "🌍 Leave atmosphere", desc: "Passing through the clouds...", voice: VOICE.q5Cruising },
+  { label: "🛰️ Orbit achieved", desc: "We're in space!", voice: VOICE.q5Approaching },
+  { label: "🪐 Course to Mars", desc: "Setting trajectory...", voice: VOICE.q5Landing },
+  { label: "🔴 Mars approach", desc: "Almost there!", voice: VOICE.q5Touchdown },
+  { label: "🪂 Entry & landing", desc: "Deploying parachutes and thrusters!", voice: VOICE.q5Success },
 ];
 
 export default function MarsLanding({ training, onComplete }: { training: TrainingData; onComplete: () => void }) {
@@ -24,13 +24,13 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
 
   useEffect(() => { speak(VOICE.q5Start); return () => { stopSpeaking(); }; }, []);
 
-  // Auto-advance every 3s once started
   useEffect(() => {
     if (!auto || done) return;
+    const next = step + 1;
     const t = setTimeout(() => {
       sfxCorrect();
-      if (step + 1 >= MISSION_STEPS.length) { setDone(true); sfxCelebrate(); speak(VOICE.q5Done); }
-      else setStep((s) => s + 1);
+      if (next >= MISSION_STEPS.length) { setDone(true); sfxCelebrate(); speak(VOICE.q5Done); }
+      else { setStep(next); speak(MISSION_STEPS[next].voice); }
     }, 3000);
     return () => clearTimeout(t);
   }, [auto, step, done]);
@@ -82,7 +82,7 @@ export default function MarsLanding({ training, onComplete }: { training: Traini
       </div>
 
       {!auto ? (
-        <button className="btn btn-primary text-xl mt-4" onClick={() => { stopSpeaking(); sfxTap(); setAuto(true); speak(VOICE.q5Launch); }}>
+        <button className="btn btn-primary text-xl mt-4" onClick={() => { stopSpeaking(); sfxTap(); setAuto(true); speak(VOICE.q5Launch).then(() => speak(MISSION_STEPS[0].voice)); }}>
           🚀 Launch!
         </button>
       ) : (
