@@ -9,7 +9,7 @@ import MarsLanding from "./quests/MarsLanding";
 import RocketBuddy from "./quests/RocketBuddy";
 import Confetti from "./quests/Confetti";
 import SessionTimer, { useSessionTimer } from "./quests/SessionTimer";
-import SpeakingIndicator, { useSpeaking } from "./quests/SpeakingIndicator";
+import { useSpeaking } from "./quests/SpeakingIndicator";
 import { sfxTap, sfxCelebrate } from "./quests/sfx";
 import { speak, stopSpeaking, VOICE } from "./quests/speak";
 import { startMusic, stopMusic } from "./quests/music";
@@ -63,8 +63,7 @@ export default function Home() {
   if (phase === "start") {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4 sm:p-8 fade-in">
-        <SpeakingIndicator />
-        <RocketBuddy mood="idle" size={160} />
+        <RocketBuddy mood="idle" size={160} talking={speaking} />
         <h1 className="text-3xl sm:text-5xl font-bold text-center px-4">
           🚀 Rocket Landing Quest
         </h1>
@@ -85,9 +84,8 @@ export default function Home() {
     const phases: Phase[] = ["q1", "q2", "q3", "q4", "q5"];
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 sm:p-8 fade-in">
-        <SpeakingIndicator />
         <Confetti active={completed.every(Boolean)} />
-        <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} />
+        <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} talking={speaking} />
         <h1 className="text-3xl sm:text-4xl font-bold text-center" onClick={() => speak(VOICE.menuTitle)} style={{cursor: "pointer"}}>
           Rocket Landing Quest!
         </h1>

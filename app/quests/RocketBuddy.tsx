@@ -2,7 +2,7 @@
 
 type Mood = "idle" | "happy" | "thinking" | "scared" | "celebrate";
 
-export default function RocketBuddy({ mood = "idle", size = 100 }: { mood?: Mood; size?: number }) {
+export default function RocketBuddy({ mood = "idle", size = 100, talking = false }: { mood?: Mood; size?: number; talking?: boolean }) {
   const h = size;
   const w = size * 0.5;
   const bodyColor = mood === "celebrate" ? "#fbbf24" : "#38bdf8";
@@ -11,6 +11,7 @@ export default function RocketBuddy({ mood = "idle", size = 100 }: { mood?: Mood
   const eyeR = mood === "scared" ? 5 : mood === "happy" || mood === "celebrate" ? 2 : 3.5;
 
   return (
+    <>
     <svg width={w} height={h} viewBox="0 0 50 100" fill="none">
       <style>{`
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -64,5 +65,13 @@ export default function RocketBuddy({ mood = "idle", size = 100 }: { mood?: Mood
         <text x="40" y="10" fontSize="8">✨</text>
       </>}
     </svg>
+      {talking && (
+        <div className="flex gap-1 mt-1">
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)", animationDelay: "0ms" }} />
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)", animationDelay: "200ms" }} />
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)", animationDelay: "400ms" }} />
+        </div>
+      )}
+    </>
   );
 }
