@@ -61,7 +61,7 @@ export default function TestLanding({ training, onComplete }: { training: Traini
         <div className="flex flex-wrap gap-1">{scene.features.map((f) => <span key={f} className="rounded-full px-2 py-0.5 text-xs" style={{ background: "rgba(56,189,248,0.2)", color: "#38bdf8" }}>{f}</span>)}</div>
         <div className="mt-2 text-xs">AI says: <b style={{ color: scene.aiChoice === "dangerous" ? "#ef4444" : "#4ade80" }}>{scene.aiChoice.toUpperCase()}</b> ({scene.confidence}%)</div>
       </div>
-      <div className="flex items-center gap-2 w-48">
+      <div className="flex items-center gap-2 w-full max-w-xs">
         <span className="text-xs opacity-60 w-20">Confidence:</span>
         <div className="progress-track flex-1"><div className="progress-fill" style={{ width: `${scene.confidence}%`, background: confColor }} /></div>
         <span className="text-sm font-bold" style={{ color: confColor }}>{scene.confidence}%</span>
