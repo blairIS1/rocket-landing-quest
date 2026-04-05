@@ -73,12 +73,12 @@ export function generateLandingRounds(training: TrainingData): LandingRound[] {
 
 // Quest 4: Space debris for collision avoidance
 export const DEBRIS_EVENTS = [
-  { emoji: "🛰️", label: "Old satellite ahead!", correct: "dodge", delay: 2000 },
+  { emoji: "🛰️", label: "Old satellite ahead!", correct: "dodge", delay: 4000 },
   { emoji: "✨", label: "Clear space", correct: "fly", delay: 800 },
-  { emoji: "🪨", label: "Space rock!", correct: "dodge", delay: 1800 },
+  { emoji: "🪨", label: "Space rock!", correct: "dodge", delay: 3500 },
   { emoji: "✨", label: "All clear", correct: "fly", delay: 600 },
-  { emoji: "🔩", label: "Floating debris!", correct: "dodge", delay: 2200 },
+  { emoji: "🔩", label: "Floating debris!", correct: "dodge", delay: 4500 },
   { emoji: "✨", label: "Path is safe", correct: "fly", delay: 500 },
-  { emoji: "🛰️", label: "Broken satellite!", correct: "dodge", delay: 1600 },
+  { emoji: "🛰️", label: "Broken satellite!", correct: "dodge", delay: 3000 },
   { emoji: "✨", label: "Smooth sailing", correct: "fly", delay: 700 },
 ];
