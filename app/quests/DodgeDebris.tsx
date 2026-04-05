@@ -78,6 +78,8 @@ export default function DodgeDebris({ onComplete }: { onComplete: () => void }) 
   }
 
   const urgencyPct = aiWrong ? Math.min((timer / event.delay) * 100, 100) : 0;
+  // Debris flies from right (100%) toward rocket (20%) based on timer progress
+  const debrisX = phase === "event" ? 100 - (timer / event.delay) * 80 : 100;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 fade-in">
@@ -88,7 +90,9 @@ export default function DodgeDebris({ onComplete }: { onComplete: () => void }) 
       {/* Space view */}
       <div className="w-full max-w-lg h-32 rounded-2xl relative overflow-hidden" style={{ background: "#0a0a2e" }}>
         <div className="text-4xl absolute transition-all" style={{ left: "15%", top: `${rocketY}%`, transform: "translateY(-50%) rotate(-90deg)", transitionDuration: "0.3s" }}>🚀</div>
-        {phase !== "flying" && <div className="text-5xl absolute top-1/2 right-8" style={{ transform: "translateY(-50%)" }}>{event.emoji}</div>}
+        {phase !== "flying" && (
+          <div className="text-5xl absolute top-1/2" style={{ left: `${debrisX}%`, transform: "translateY(-50%) translateX(-50%)", transition: "left 0.1s linear" }}>{event.emoji}</div>
+        )}
         {/* Stars */}
         {[20, 40, 60, 80].map((x) => <div key={x} className="absolute w-1 h-1 rounded-full bg-white opacity-30" style={{ left: `${x}%`, top: `${(x * 37) % 80 + 10}%` }} />)}
       </div>
