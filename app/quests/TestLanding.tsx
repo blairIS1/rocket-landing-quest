@@ -6,6 +6,7 @@ import { sfxCorrect, sfxWrong, sfxTap } from "./sfx";
 import { speak, stopSpeaking, VOICE } from "./speak";
 import { useSpeaking } from "./SpeakingIndicator";
 import Confetti from "./Confetti";
+import { TrainVisual } from "./TrainLanding";
 
 export default function TestLanding({ training, onComplete }: { training: TrainingData; onComplete: (needsRetrain: boolean) => void }) {
   const [rounds] = useState(() => generateLandingRounds(training));
@@ -53,7 +54,7 @@ export default function TestLanding({ training, onComplete }: { training: Traini
       <h2 className="text-3xl font-bold">🚀 Quest 3: Test Landing!</h2>
       <RocketBuddy mood={mood} size={80} />
       <div className="text-sm opacity-70">{idx + 1} / {rounds.length}</div>
-      <div className="text-8xl my-2">{scene.emoji}</div>
+      <div className="my-2"><TrainVisual emoji={scene.emoji} category={scene.category} answer={scene.correct} /></div>
       <div className="text-xl font-semibold">{scene.label}</div>
       <div className="rounded-xl p-3 text-sm max-w-xs" style={{ background: "rgba(255,255,255,0.05)" }}>
         <div className="text-xs opacity-50 mb-1">🤖 AI sensors:</div>
