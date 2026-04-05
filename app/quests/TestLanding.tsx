@@ -68,7 +68,11 @@ export default function TestLanding({ training, onComplete }: { training: Traini
       </div>
       {picked ? (
         <div className="text-lg text-center fade-in" style={{ color: picked === scene.correct ? "var(--success)" : "var(--warn)" }}>
-          {picked === scene.correct ? "✅ Correct!" : `Oops! It's ${scene.correct}! 😅`}
+          {picked === scene.correct
+            ? (scene.aiChoice !== scene.correct
+              ? `✅ You're right! The AI said ${scene.aiChoice.toUpperCase()} but it's actually ${scene.correct}!`
+              : `✅ Correct! It's ${scene.correct}!`)
+            : `Oops! It's ${scene.correct}! 😅`}
         </div>
       ) : (
         <div className="flex gap-4 fade-in">
