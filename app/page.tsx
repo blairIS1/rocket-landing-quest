@@ -70,6 +70,10 @@ export default function Home() {
         <p className="text-base sm:text-xl text-center opacity-80 max-w-2xl px-4">
           Train an AI to land a rocket on Mars! Learn how real AI works through 5 exciting missions.
         </p>
+        <div className="rounded-xl p-4 text-center max-w-sm" style={{ background: "rgba(56,189,248,0.1)", border: "1px solid rgba(56,189,248,0.3)" }}>
+          <p className="text-lg">📏 Hold your tablet at arm&apos;s length!</p>
+          <p className="opacity-60">Not too close — your eyes will thank you! 👀</p>
+        </div>
         <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame}>
           🎮 Start Adventure!
         </button>
