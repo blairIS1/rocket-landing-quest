@@ -27,8 +27,8 @@ export function TrainVisual({ emoji, category, answer }: { emoji: string; catego
       <svg width="120" height="120" viewBox="0 0 120 120">
         {/* Ground line */}
         <line x1="10" y1="105" x2="110" y2="105" stroke="#475569" strokeWidth="2" strokeDasharray="4" />
-        {/* Rocket */}
-        <g style={{ transformOrigin: "60px 90px", transform: tilted ? "rotate(-45deg)" : "rotate(0deg)" }}>
+        {/* Rocket — 🚀 emoji points ~45° upper-right, so rotate(45deg) makes it vertical */}
+        <g style={{ transformOrigin: "60px 70px", transform: tilted ? "rotate(0deg)" : "rotate(45deg)" }}>
           <text x="60" y="70" textAnchor="middle" fontSize="48">🚀</text>
         </g>
         {/* Angle indicator */}
