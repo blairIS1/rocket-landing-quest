@@ -65,7 +65,7 @@ export default function BuildRocket({ onComplete }: { onComplete: () => void }) 
               </div>
               <div className="progress-track">
                 <div className="progress-fill" style={{
-                  width: `${Math.min((p.value / p.max) * 100, 100)}%`,
+                  width: `${Math.min((p.value / p.ideal) * 100, 100)}%`,
                   background: ok ? "var(--success)" : over ? "var(--warn)" : undefined,
                 }} />
               </div>
