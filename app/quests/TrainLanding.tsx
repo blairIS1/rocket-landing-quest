@@ -12,11 +12,12 @@ export function TrainVisual({ emoji, category, answer }: { emoji: string; catego
   if (category === "fuel") {
     const empty = answer === "dangerous";
     return (
-      <svg width="120" height="120" viewBox="0 0 120 120">
-        <rect x="30" y="15" width="60" height="90" rx="8" fill="none" stroke="#94a3b8" strokeWidth="3" />
-        <rect x="34" y={empty ? 85 : 25} width="52" height={empty ? 16 : 76} rx="4" fill={empty ? "#ef4444" : "#4ade80"} />
-        <text x="60" y="112" textAnchor="middle" fontSize="10" fill="#94a3b8">FUEL</text>
-        {empty && <text x="60" y="75" textAnchor="middle" fontSize="14" fill="#ef4444">⚠️</text>}
+      <svg width="120" height="140" viewBox="0 0 120 140">
+        <text x="60" y="16" textAnchor="middle" fontSize="12" fill="#94a3b8">FUEL</text>
+        <rect x="30" y="24" width="60" height="90" rx="8" fill="none" stroke="#94a3b8" strokeWidth="3" />
+        <rect x="34" y={empty ? 94 : 34} width="52" height={empty ? 16 : 76} rx="4" fill={empty ? "#ef4444" : "#4ade80"} />
+        {empty && <text x="60" y="130" textAnchor="middle" fontSize="16" fill="#ef4444">⚠️ LOW</text>}
+        {!empty && <text x="60" y="130" textAnchor="middle" fontSize="14" fill="#4ade80">FULL ✅</text>}
       </svg>
     );
   }
