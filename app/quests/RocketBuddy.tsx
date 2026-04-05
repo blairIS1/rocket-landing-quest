@@ -1,11 +1,12 @@
 "use client";
+import { getSelectedColor } from "./scores";
 
 type Mood = "idle" | "happy" | "thinking" | "scared" | "celebrate";
 
 export default function RocketBuddy({ mood = "idle", size = 100, talking = false, color }: { mood?: Mood; size?: number; talking?: boolean; color?: string }) {
   const h = size;
   const w = size * 0.5;
-  const bodyColor = mood === "celebrate" ? "#fbbf24" : (color || "#38bdf8");
+  const bodyColor = mood === "celebrate" ? "#fbbf24" : (color || getSelectedColor());
   const flameH = mood === "happy" || mood === "celebrate" ? 18 : mood === "thinking" ? 10 : 12;
   const bodyAnim = mood === "celebrate" ? "bounce 0.5s ease-in-out infinite" : mood === "happy" ? "wiggle 0.6s ease-in-out" : "none";
   const eyeR = mood === "scared" ? 5 : mood === "happy" || mood === "celebrate" ? 2 : 3.5;
