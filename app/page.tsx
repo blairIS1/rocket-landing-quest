@@ -13,7 +13,7 @@ import { useSpeaking } from "./quests/SpeakingIndicator";
 import { sfxTap, sfxCelebrate } from "./quests/sfx";
 import { speak, stopSpeaking, VOICE } from "./quests/speak";
 import { startMusic, stopMusic } from "./quests/music";
-import { recordCompletion, getCompletions } from "./quests/scores";
+import { recordCompletion, getCompletions, ROCKET_COLORS, getSelectedColor, setSelectedColor } from "./quests/scores";
 import { TrainingData } from "./quests/data";
 
 const PARTS = [
@@ -38,10 +38,11 @@ export default function Home() {
   const [completed, setCompleted] = useState<boolean[]>([false, false, false, false, false]);
   const [training, setTraining] = useState<TrainingData>({});
   const [completions, setCompletions] = useState(0);
+  const [rocketColor, setRocketColor] = useState("#38bdf8");
   const { expired, dismiss } = useSessionTimer();
   const speaking = useSpeaking();
 
-  useEffect(() => { setCompletions(getCompletions()); }, []);
+  useEffect(() => { setCompletions(getCompletions()); setRocketColor(getSelectedColor()); }, []);
 
   const markDone = (i: number) => setCompleted((p) => { const n = [...p]; n[i] = true; return n; });
 
@@ -63,7 +64,7 @@ export default function Home() {
   if (phase === "start") {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4 sm:p-8 fade-in">
-        <RocketBuddy mood="idle" size={160} talking={speaking} />
+        <RocketBuddy mood="idle" size={160} talking={speaking} color={rocketColor} />
         <h1 className="text-3xl sm:text-5xl font-bold text-center px-4">
           🚀 Rocket Landing Quest
         </h1>
@@ -77,9 +78,32 @@ export default function Home() {
         <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame}>
           🎮 Start Adventure!
         </button>
-        {completions > 0 && <p className="text-sm opacity-40">
-          🏆 You've completed this {completions} time{completions > 1 ? 's' : ''}!
-        </p>}
+        {completions > 0 && (
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-sm opacity-60">🏆 Completed {completions}x — pick your rocket color!</p>
+            <div className="flex gap-2 flex-wrap justify-center">
+              {ROCKET_COLORS.map((c) => {
+                const unlocked = completions >= c.unlockAt;
+                return (
+                  <button key={c.name} title={unlocked ? c.name : `Complete ${c.unlockAt}x to unlock`}
+                    className="rounded-full border-2 transition-transform"
+                    style={{
+                      width: 36, height: 36,
+                      background: c.color === "url(#rainbow)" ? "linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#38bdf8,#a78bfa)" : c.color,
+                      borderColor: rocketColor === c.color ? "white" : "transparent",
+                      opacity: unlocked ? 1 : 0.3,
+                      cursor: unlocked ? "pointer" : "not-allowed",
+                      transform: rocketColor === c.color ? "scale(1.2)" : "scale(1)",
+                    }}
+                    onClick={() => { if (unlocked) { sfxTap(); setRocketColor(c.color); setSelectedColor(c.color); } }}
+                  >
+                    {!unlocked && <span className="text-xs">🔒</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -89,7 +113,7 @@ export default function Home() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 sm:p-8 fade-in">
         <Confetti active={completed.every(Boolean)} />
-        <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} talking={speaking} />
+        <RocketBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} talking={speaking} color={rocketColor} />
         <h1 className="text-3xl sm:text-4xl font-bold text-center" onClick={() => speak(VOICE.menuTitle)} style={{cursor: "pointer"}}>
           Rocket Landing Quest!
         </h1>
@@ -108,7 +132,7 @@ export default function Home() {
           {completed.filter(Boolean).length}/5 parts
         </div>
         {completions > 0 && <p className="text-xs opacity-40" onClick={() => speak(VOICE.menuCompleted)} style={{cursor: "pointer"}}>
-          🏆 Completed {completions}x
+          🏆 Completed {completions}x — change color on start screen!
         </p>}
         <div className="flex flex-col gap-3 w-full max-w-sm px-4">
           {QUESTS.map((q, i) => (

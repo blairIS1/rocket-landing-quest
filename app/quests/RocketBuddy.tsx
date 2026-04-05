@@ -2,10 +2,10 @@
 
 type Mood = "idle" | "happy" | "thinking" | "scared" | "celebrate";
 
-export default function RocketBuddy({ mood = "idle", size = 100, talking = false }: { mood?: Mood; size?: number; talking?: boolean }) {
+export default function RocketBuddy({ mood = "idle", size = 100, talking = false, color }: { mood?: Mood; size?: number; talking?: boolean; color?: string }) {
   const h = size;
   const w = size * 0.5;
-  const bodyColor = mood === "celebrate" ? "#fbbf24" : "#38bdf8";
+  const bodyColor = mood === "celebrate" ? "#fbbf24" : (color || "#38bdf8");
   const flameH = mood === "happy" || mood === "celebrate" ? 18 : mood === "thinking" ? 10 : 12;
   const bodyAnim = mood === "celebrate" ? "bounce 0.5s ease-in-out infinite" : mood === "happy" ? "wiggle 0.6s ease-in-out" : "none";
   const eyeR = mood === "scared" ? 5 : mood === "happy" || mood === "celebrate" ? 2 : 3.5;
@@ -13,6 +13,13 @@ export default function RocketBuddy({ mood = "idle", size = 100, talking = false
   return (
     <>
     <svg width={w} height={h} viewBox="0 0 50 100" fill="none">
+      <defs>
+        <linearGradient id="rainbow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f87171" /><stop offset="25%" stopColor="#fbbf24" />
+          <stop offset="50%" stopColor="#4ade80" /><stop offset="75%" stopColor="#38bdf8" />
+          <stop offset="100%" stopColor="#a78bfa" />
+        </linearGradient>
+      </defs>
       <style>{`
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
         @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
