@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import RocketBuddy from "./RocketBuddy";
 import { sfxCelebrate } from "./sfx";
 
-const SESSION_LIMIT = 10 * 60; // 10 minutes per SOP (farsighted kids fatigue faster)
+const SESSION_LIMIT = 20 * 60; // 20 minutes
 
 export default function SessionTimer({ onDismiss }: { onDismiss: () => void }) {
   return (
@@ -11,7 +11,7 @@ export default function SessionTimer({ onDismiss }: { onDismiss: () => void }) {
       <RocketBuddy mood="happy" size={140} />
       <h2 className="text-3xl font-bold text-center">⏰ Great job today!</h2>
       <p className="text-lg opacity-80 text-center max-w-md">
-        You&apos;ve been playing for 10 minutes — your eyes and brain need a break!
+        You&apos;ve been playing for 20 minutes — your eyes and brain need a break!
       </p>
       <p className="text-base opacity-60 text-center">Look out the window at something far away, then come back later! 👀🌳</p>
       <button className="btn btn-primary mt-4" onClick={onDismiss}>
