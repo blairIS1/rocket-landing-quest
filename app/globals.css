@@ -130,9 +130,20 @@ body {
   text-decoration-style: dotted;
 }
 
+/* === Farsighted-friendly: minimum font sizes === */
+.text-xs { font-size: 1rem !important; }
+.text-sm { font-size: 1.1rem !important; }
+.text-base { font-size: 1.2rem !important; }
+.text-lg { font-size: 1.3rem !important; }
+.text-xl { font-size: 1.4rem !important; }
+.text-2xl { font-size: 1.6rem !important; }
+.text-3xl { font-size: 2rem !important; }
+.btn { font-size: 1.3rem; }
+
 /* Mobile responsive */
 @media (max-width: 640px) {
   h1 { font-size: 2rem !important; }
   h2 { font-size: 1.5rem !important; }
-  p { font-size: 0.9rem !important; }
+  .text-xs { font-size: 0.95rem !important; }
+  .text-sm { font-size: 1rem !important; }
 }
